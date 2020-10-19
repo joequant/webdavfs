@@ -236,32 +236,6 @@ class WebDAVFS(FS):
     def getinfo(self, path, namespaces=None):
         _path = self.validatepath(path)
         if _path in '/':
-<<<<<<< Updated upstream
-            info_dict = {
-                "basic": {
-                    "name": "",
-                    "is_dir": True
-                },
-                "details": {
-                    "type": ResourceType.directory
-                }
-            }
-
-        else:
-            try:
-                info = self.client.info(_path.encode('utf-8'))
-                # displayname is optional
-                if info['name'] is None:
-                    info['name'] = _path.split("/")[-1]
-                info_dict = self._create_info_dict(info)
-                if self.client.is_dir(_path.encode('utf-8')):
-                    info_dict['basic']['is_dir'] = True
-                    info_dict['details']['type'] = ResourceType.directory
-            except we.RemoteResourceNotFound as exc:
-                raise errors.ResourceNotFound(path, exc=exc)
-
-        return Info(info_dict)
-=======
             self.info_cache.clear()
         try:
             _path = self.validatepath(path)
@@ -297,7 +271,6 @@ class WebDAVFS(FS):
             raise errors.ResourceNotFound(path, exc=exc)
         retval = Info(info_dict)
         return retval
->>>>>>> Stashed changes
 
     def listdir(self, path):
         info = self.getinfo(path)
